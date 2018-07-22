@@ -17,14 +17,14 @@ export const AuthorizationWithUser = Authorization({name: 'username', role: getU
 export const User = AuthorizationWithUser(['user', 'admin'], renderComponent(Unauthorized));
 const Admin = AuthorizationWithUser('admin', renderComponent(Unauthorized));
 
-export const UserRenderNothing = AuthorizationWithUser(['admin'], renderNothing);
+export const OnlyForAdmin = AuthorizationWithUser(['admin'], renderNothing);
 
 const PanelWithAuthorization: any = Admin(Panel);
 const ListWithAuthorization: any = User(List);
 
 const TestButton = () => (<button>only for admin</button>);
 
-const Test = UserRenderNothing(TestButton);
+const Test = OnlyForAdmin(TestButton); // todo: <OnlyForAdmin> ... </OnlyForAdmin>
 
 class App extends React.Component {
     public render() {
