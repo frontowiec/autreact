@@ -1,21 +1,11 @@
-import * as React from 'react';
-import {includes, curry} from 'lodash';
+import {includes, curry} from 'lodash'
+import {branch, renderComponent} from 'recompose';
+import Unauthorized from "./Unauthorized";
 
-const Authorization = (user, allowRoles, WrappedComponent) =>
-    class WithAuthorization extends React.Component<any, any> {
-        constructor(props) {
-            super(props);
-
-            this.state = {user}
-        }
-
-        render() {
-            const {role} = this.state.user;
-            if (includes(allowRoles, role)) {
-                return <WrappedComponent {...this.props}/>;
-            }
-            return <h1>No page for you!</h1>;
-        }
-    };
+const Authorization = (user, allowRoles) =>
+    branch(
+        () => !includes(allowRoles, user.role),
+        renderComponent(Unauthorized)
+    );
 
 export default curry(Authorization);
