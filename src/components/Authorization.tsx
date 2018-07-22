@@ -1,11 +1,10 @@
 import {includes, curry} from 'lodash'
-import {branch, renderComponent} from 'recompose';
-import Unauthorized from "./Unauthorized";
+import {branch} from 'recompose';
 
-const Authorization = (user, allowRoles) =>
+const Authorization = (user, allowRoles, renderElement) =>
     branch(
         () => !includes(allowRoles, user.role),
-        renderComponent(Unauthorized)
+        renderElement
     );
 
 export default curry(Authorization);
